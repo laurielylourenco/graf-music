@@ -1,5 +1,5 @@
 
-import './App.css';
+import './globais.css';
 export default function Home() {
   return (
 
