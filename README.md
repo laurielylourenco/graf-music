@@ -1,7 +1,8 @@
 
 ## GrafMusic
+<img src="./public/assets/PNG/musicfile2-09.png" width="600" height="600" />
 
-![Project Image](./public/assets/PNG/musicfile2-09.png)
+
 > Transforme sua trilha sonora em um espetáculo visual! Este projeto utiliza o Next.js para criar gráficos a partir das músicas que você ouve no Spotify.
 
 
