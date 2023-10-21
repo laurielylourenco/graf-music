@@ -1,14 +1,26 @@
+import Head from "next/head";
+
 import Navbar from './Navbar'
 import HeroSection from './Heroes'
-//import './globals.css';
+
+
 export default function Home() {
+
+
+
   return (
 
-    <div className="container"> 
-        <Navbar />
-        <HeroSection/>
-    </div>
-  
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+      </Head>
+
+      <Navbar />
+      <HeroSection />
+
+    </>
+
 
   )
 }

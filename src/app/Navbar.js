@@ -1,36 +1,25 @@
 
+
 const Navbar = () => {
+
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className="navbar" aria-label="First navbar example">
       <div className="container-fluid">
-       
-          <a className="navbar-brand">GrafMusic</a>
-    
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarColor04"
-          aria-controls="navbarColor04"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <a className="navbar-brand" href="#">GrafMusic</a>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarColor04">
-          <ul className="navbar-nav me-auto">
+
+        <div className="collapse navbar-collapse" id="navbarsExample01">
+          <ul className="navbar-nav me-auto mb-2">
             <li className="nav-item">
-           
-                <a className="nav-link active">Home</a>
-        
+              <a className="nav-link active" aria-current="page" href="#">Home</a>
             </li>
             <li className="nav-item">
-        
-                <a className="nav-link">About</a>
-      
+              <a className="nav-link" href="#">Sobre</a>
             </li>
-        
           </ul>
+
         </div>
       </div>
     </nav>
