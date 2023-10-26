@@ -16,3 +16,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Learn More
 Começando uma bagucinha ...
+
+
+## TO-DO 
+
+[ ] - Aprender consumir o login API Spotify
+
+[ ] - Escolher os graficos e bibliotecas necessarias
+
+[ ] - Montar os graficos

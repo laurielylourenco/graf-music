@@ -1,5 +1,5 @@
-
-
+import Link from 'next/link';
+import React from 'react';
 const Navbar = () => {
 
   return (
@@ -13,10 +13,10 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarsExample01">
           <ul className="navbar-nav me-auto mb-2">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">Home</a>
+              <Link className="nav-link active" aria-current="page" href="/">Home</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Sobre</a>
+              <Link className="nav-link" href="/about">Sobre</Link>
             </li>
           </ul>
 

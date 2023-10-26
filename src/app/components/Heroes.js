@@ -25,9 +25,9 @@ const HeroSection = () => {
           Explore a magia da música de forma totalmente nova com nosso sistema de geração de gráficos a partir das músicas que você ama no Spotify. Descubra insights surpreendentes sobre sua trilha sonora pessoal e mergulhe nas histórias que seus dados musicais contam.
           </p>
           <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-            <button type="button" className="btn btn-primary btn-lg px-4 me-md-2">
+            <a type="button" className="btn btn-primary btn-lg px-4 me-md-2">
               Login
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -36,3 +36,5 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
+
