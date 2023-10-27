@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import React from 'react';
-const Navbar = () => {
+const Navbar = ({ userSessionState, onLogout }) => {
+  const handleClick = () => {
+    onLogout("Olá, Pai! Esta é uma mensagem do filho para deslogar");
+  };
 
   return (
     <nav className="navbar" aria-label="First navbar example">
@@ -18,6 +21,12 @@ const Navbar = () => {
             <li className="nav-item">
               <Link className="nav-link" href="/about">Sobre</Link>
             </li>
+            {userSessionState.status === 'authenticated' ? (
+              <li className="nav-item">
+                <a onClick={handleClick} className="nav-link" type='button'>Logout</a>
+              </li>
+            ) : null}
+
           </ul>
 
         </div>

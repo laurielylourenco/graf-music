@@ -3,7 +3,13 @@ import Image from 'next/image';
 
 //import  image from "./assets/PNG/musicfile2-09.png"
 
-const HeroSection = () => {
+const HeroSection = ({onLogin}) => {
+
+  const handleClick = () => {
+    onLogin("Olá, Pai! Esta é uma mensagem do filho.");
+  };
+
+
   return (
     <div className="container col-xxl-8 px-4 py-5">
       <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
@@ -25,7 +31,7 @@ const HeroSection = () => {
           Explore a magia da música de forma totalmente nova com nosso sistema de geração de gráficos a partir das músicas que você ama no Spotify. Descubra insights surpreendentes sobre sua trilha sonora pessoal e mergulhe nas histórias que seus dados musicais contam.
           </p>
           <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-            <a type="button" className="btn btn-primary btn-lg px-4 me-md-2">
+            <a onClick={handleClick} type="button" className="btn btn-primary btn-lg px-4 me-md-2">
               Login
             </a>
           </div>
