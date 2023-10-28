@@ -1,11 +1,16 @@
-import { SessionProvider } from 'next-auth/react'
+import RootLayout from './layout';
+import { SessionProvider } from 'next-auth/react';
 
-function App({ Component, pageProps: { session, ...pageProps } }) {
+function App({ Component, pageProps }) {
+  const { userSessionState, onLogout } = pageProps;
+
   return (
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
+    <SessionProvider session={pageProps.session}>
+      <RootLayout userSessionState={userSessionState} onLogout={onLogout}>
+        <Component {...pageProps} />
+      </RootLayout>
     </SessionProvider>
-  )
+  );
 }
 
-export default App
+export default App;

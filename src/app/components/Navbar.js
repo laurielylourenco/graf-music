@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 const Navbar = ({ userSessionState, onLogout }) => {
+
   const handleClick = () => {
     onLogout("Olá, Pai! Esta é uma mensagem do filho para deslogar");
   };
@@ -19,13 +20,13 @@ const Navbar = ({ userSessionState, onLogout }) => {
               <Link className="nav-link active" aria-current="page" href="/">Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" href="/about">Sobre</Link>
+              <a  className="nav-link" href="/about">Sobre</a>
             </li>
             {userSessionState.status === 'authenticated' ? (
               <li className="nav-item">
                 <a onClick={handleClick} className="nav-link" type='button'>Logout</a>
               </li>
-            ) : null}
+            ) : null} 
 
           </ul>
 
