@@ -6,7 +6,7 @@ const Dash = ({ userSessionState }) => {
 
       <h1>
         Welcome,{' '}
-        {userSessionState.status === 'authenticated'
+        {userSessionState && userSessionState.status === 'authenticated'
           ? userSessionState.data.user?.name || 'friend'
           : 'stranger'}
         !
