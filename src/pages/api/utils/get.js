@@ -11,13 +11,12 @@ export const get = async (url, session) => {
         console.error('Token de acesso não encontrado na sessão.');
         return null;
     }
-     const res = await fetch(url, {
+    const res = await fetch(url, {
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },
     })
-    .then((res) => res.json())
-    .catch((err) => console.log('err',err));
-
+        .then((res) => res.json())
+        .catch((err) => console.log('err', err));
     return res;
 };
