@@ -8,7 +8,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const Dash = ({ userSessionState }) => {
 
-  const [chartData, setChartData] = React.useState(null);
+  const [chartData, setChartData] = useState(null);
 
   const fetchArtistGenres = async (userSessionState) => {
     const topArtist = await getTopArtist(userSessionState);
@@ -62,7 +62,7 @@ const Dash = ({ userSessionState }) => {
     return top10;
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchArtistGenres(userSessionState);
   }, [userSessionState]);
 
