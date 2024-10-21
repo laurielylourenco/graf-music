@@ -16,7 +16,7 @@ const Dash = ({ userSessionState }) => {
 
     const genreCount = topArtist?.map(({ genres }) => {
       return genres.reduce((acc, genre) => {
-        
+
         if (acc[genre]) {
           acc[genre]++;
         } else {
@@ -29,11 +29,11 @@ const Dash = ({ userSessionState }) => {
 
     const combinedGenres = genreCount?.reduce((acc, obj) => {
       for (let genre in obj) {
-        
+
         if (acc[genre]) {
           acc[genre] += obj[genre];
         } else {
-          
+
           acc[genre] = obj[genre];
         }
       }
@@ -44,8 +44,8 @@ const Dash = ({ userSessionState }) => {
 
     const top10 = ord.slice(0, 10);
 
-    const labels = top10.map(item => item[0]); 
-    const data = top10.map(item => item[1]);   
+    const labels = top10.map(item => item[0]);
+    const data = top10.map(item => item[1]);
 
     setChartData({
       labels: labels,
@@ -78,23 +78,25 @@ const Dash = ({ userSessionState }) => {
       </h1>
 
       {chartData && (
-        <div style={{ width: '50%', margin: 'auto' }}>
+        <div style={{ width: '100%', margin: 'auto' }}>
           <Bar
             data={chartData}
             options={{
               responsive: true,
+              maintainAspectRatio: false,
               plugins: {
                 legend: {
                   position: 'top',
                 },
                 title: {
                   display: true,
-                  text: 'Seus artistas favoritos tocam mais ?',
+                  text: 'Seus artistas favoritos tocam mais?',
                 },
               },
             }}
           />
         </div>
+
       )}
 
     </>
