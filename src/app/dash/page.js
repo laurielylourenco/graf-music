@@ -1,7 +1,4 @@
-
-import React from "react";
-import { getSession } from "next-auth/react";
-import { get } from "../../pages/api/utils/get";
+import React, { useState, useEffect } from 'react';
 import { getTopArtist } from "../../pages/api/utils/topTracks";
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';

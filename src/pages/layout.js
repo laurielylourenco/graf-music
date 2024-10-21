@@ -13,8 +13,7 @@ export default function RootLayout({ children, userSessionState, onLogout}) {
   };
 
   const session = useSession() 
-console.log('session',session)
-console.log('userSessionState',userSessionState)
+
   return (
     <>
       <Head>
