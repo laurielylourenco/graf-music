@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 import { getTopArtist } from "../../pages/api/utils/topTracks";
 import { Bar } from 'react-chartjs-2';
