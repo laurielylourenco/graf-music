@@ -26,21 +26,11 @@ export async function getTopTracks(session) {
         return null;
     }
     // Endpoint reference: https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
-    return (await fetchWebApi('v1/me/top/tracks?time_range=long_term&limit=5', 'GET', accessToken)).items;
+    return (await fetchWebApi('v1/me/top/tracks?time_range=long_term&limit=3', 'GET', accessToken)).items;
 }
 
-/* 
-export const topTracks = await getTopTracks(accessToken);
-console.log(
-    topTracks?.map(
-        ({ name, artists }) =>
-            `${name} by ${artists.map(artist => artist.name).join(', ')}`
-    )
-);
 
-*/
-/* export const getSongs = async (url, session) => {
-    //console.log('session:', session);
+export async function getTopArtist(session) {
 
     let accessToken;
     if (session?.data?.user?.accessToken) {
@@ -51,14 +41,7 @@ console.log(
         console.error('Token de acesso não encontrado na sessão.');
         return null;
     }
-    const res = await fetch(url, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-        },
-    })
-        .then((res) => res.json())
-        .catch((err) => console.log('err', err));
-    console.log('accessToken   =>', accessToken)
-    return res;
-};
- */
+    // Endpoint reference: https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
+    return (await fetchWebApi('v1/me/top/artists?time_range=long_term&limit=30', 'GET', accessToken)).items;
+}
+

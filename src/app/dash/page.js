@@ -1,48 +1,73 @@
+
+import React from "react";
 import { getSession } from "next-auth/react";
-import { get } from "../../pages/api/utils/get"
-import { getAccessToken } from "../../pages/api/utils/teste";
-import { getTopTracks } from "../../pages/api/utils/topTracks";
+import { get } from "../../pages/api/utils/get";
+import { getTopArtist } from "../../pages/api/utils/topTracks";
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Dash = ({ userSessionState }) => {
 
-//  var playlists = get("https://api.spotify.com/v1/me/playlists", userSessionState);
-  // console.log('playlists:  ', playlists)
+  const [chartData, setChartData] = React.useState(null);
 
-  getSession()
-  .then((res) => console.log('getSession:  ', res))
-  .catch((err) => console.log('getSession:  ', err))
+  const fetchArtistGenres = async (userSessionState) => {
+    const topArtist = await getTopArtist(userSessionState);
 
+    const genreCount = topArtist?.map(({ genres }) => {
+      return genres.reduce((acc, genre) => {
+        
+        if (acc[genre]) {
+          acc[genre]++;
+        } else {
 
+          acc[genre] = 1;
+        }
+        return acc;
+      }, {});
+    });
 
-  get("https://api.spotify.com/v1/me", userSessionState)
-    .then((res) => console.log('me res:  ', res))
-    .catch((err) => console.log('me err:  ', err))
+    const combinedGenres = genreCount?.reduce((acc, obj) => {
+      for (let genre in obj) {
+        
+        if (acc[genre]) {
+          acc[genre] += obj[genre];
+        } else {
+          
+          acc[genre] = obj[genre];
+        }
+      }
+      return acc;
+    }, {});
 
+    let ord = Object.entries(combinedGenres).sort((a, b) => b[1] - a[1]);
 
-  get("https://api.spotify.com/v1/me/top/artists", userSessionState)
-      .then((res) => console.log('artists res:  ', res))
-      .catch((err) => console.log('artists err:  ', err)) 
+    const top10 = ord.slice(0, 10);
 
+    const labels = top10.map(item => item[0]); 
+    const data = top10.map(item => item[1]);   
 
-  /* hgwflh6h259jf0uvy7pbf65fi */
+    setChartData({
+      labels: labels,
+      datasets: [
+        {
+          label: 'Gêneros Musicais',
+          data: data,
+          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1,
+        },
+      ],
+    });
 
-  //var recentAlbunsbr = get("https://api.spotify.com/v1/me/albums?market=BR", userSessionState);
-  /* console.log('recentAlbunsbr:  ', recentAlbunsbr) */
+    return top10;
+  };
 
-
-/*   const fetchTracks = async () => {
-    const topTracks = await getTopTracks(userSessionState);
-    console.log(
-      topTracks?.map(({ name, artists }) => `${name} by ${artists.map((artist) => artist.name).join(', ')}`)
-    );
-  // Faça o que precisar com os topTracks, como atualizar o estado, renderizar na página, etc.
-  }; */
-
- // fetchTracks();
-/* 
-  getAccessToken(userSessionState)
-    .then((res) => console.log('getAccessToken res:  ', res))
-    .catch((err) => console.log('getAccessToken err:  ', err)) */
+  React.useEffect(() => {
+    fetchArtistGenres(userSessionState);
+  }, [userSessionState]);
 
   return (
     <>
@@ -54,9 +79,28 @@ const Dash = ({ userSessionState }) => {
         !
       </h1>
 
+      {chartData && (
+        <div style={{ width: '50%', margin: 'auto' }}>
+          <Bar
+            data={chartData}
+            options={{
+              responsive: true,
+              plugins: {
+                legend: {
+                  position: 'top',
+                },
+                title: {
+                  display: true,
+                  text: 'Seus artistas favoritos tocam mais ?',
+                },
+              },
+            }}
+          />
+        </div>
+      )}
 
     </>
-  )
+  );
 }
 
-export default Dash
+export default Dash;
