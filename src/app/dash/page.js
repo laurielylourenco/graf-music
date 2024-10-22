@@ -4,7 +4,6 @@ import { getTopArtist } from "../../pages/api/utils/topTracks";
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
-
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Dash = ({ userSessionState }) => {
@@ -14,26 +13,24 @@ const Dash = ({ userSessionState }) => {
   const fetchArtistGenres = async (userSessionState) => {
     const topArtist = await getTopArtist(userSessionState);
 
+    /* Pega somente generos musicais em seus arrays brutos */
     const genreCount = topArtist?.map(({ genres }) => {
       return genres.reduce((acc, genre) => {
-
         if (acc[genre]) {
           acc[genre]++;
         } else {
-
           acc[genre] = 1;
         }
         return acc;
       }, {});
     });
 
+    /* Junta os arrays em so para melhor analise */
     const combinedGenres = genreCount?.reduce((acc, obj) => {
       for (let genre in obj) {
-
         if (acc[genre]) {
           acc[genre] += obj[genre];
         } else {
-
           acc[genre] = obj[genre];
         }
       }
@@ -69,6 +66,7 @@ const Dash = ({ userSessionState }) => {
 
   return (
     <>
+      {/* Título do gráfico */}
       <h1 className="text-center mt-5">
         Olá,{' '}
         {userSessionState && userSessionState.status === 'authenticated'
@@ -77,28 +75,52 @@ const Dash = ({ userSessionState }) => {
         !
       </h1>
 
+      {/* Explicação do gráfico */}
+      <p className="text-center mx-auto mt-3" style={{ maxWidth: '700px', padding: '0 10px' }}>
+        O gráfico abaixo mostra os gêneros musicais mais frequentes entre os 10 artistas que você mais escuta.
+        Cada barra representa um gênero, e a altura indica quantas vezes esse gênero aparece entre seus
+        artistas favoritos. Quanto maior a barra, mais presentes esses estilos estão na sua música do dia a dia.
+      </p>
+
+      {/* Renderização do gráfico */}
       {chartData && (
-        <div style={{ width: '100%', margin: 'auto' }}>
-          <Bar
-            data={chartData}
-            options={{
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                legend: {
-                  position: 'top',
+        <div style={{ width: '100%', maxWidth: '900px', margin: 'auto' }}>
+          <div style={{ height: '60vh', maxHeight: '500px', minHeight: '300px' }}>
+            <Bar
+              data={chartData}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  },
+                  title: {
+                    display: true,
+                    text: 'Distribuição dos Gêneros Musicais',
+                  },
                 },
-                title: {
-                  display: true,
-                  text: 'Seus artistas favoritos tocam mais?',
+                scales: {
+                  x: {
+                    ticks: {
+                      font: {
+                        size: 12,
+                      },
+                    },
+                  },
+                  y: {
+                    ticks: {
+                      font: {
+                        size: 12,
+                      },
+                    },
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
-
       )}
-
     </>
   );
 }
