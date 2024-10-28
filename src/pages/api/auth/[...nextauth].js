@@ -18,7 +18,7 @@ export default NextAuth({
     async jwt({ token, account }) {
       if (account) {
         token.id = account.id;
-        token.expires_at = account.expires_at * 1000;
+        token.expires_at = account.expires_at * 10000;
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
       }
