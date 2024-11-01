@@ -1,6 +1,3 @@
-import Link from 'next/link';
-
-
 const About = () => {
   return (
 
@@ -17,9 +14,12 @@ const About = () => {
         <div className="col-md-6">
           <h1>Quem sou eu?</h1>
           <p>
-            Meu nome é Lauriely, tenho 22 anos. 
+            Meu nome é Lauriely, tenho 22 anos.
             Sou uma desenvolvedora web apaixonada por tecnologia e estou sempre procurando maneiras de melhorar minhas habilidades com temas que gosto.
           </p>
+
+          <a href="https://www.linkedin.com/in/laurielylourenco" className="btn btn-info me-2"> Linkedin </a>
+          <a href="https://github.com/laurielylourenco" className="btn btn-dark me-2">Github</a>
         </div>
       </div>
     </div>
