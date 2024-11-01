@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { getTopArtist, getTopTracks, getTracks } from "../../pages/api/utils/topTracks";
+import { fetchTrackWithRetry, getTopArtist, getTopTracks, getTracks } from "../../pages/api/utils/topTracks";
 import { Bar, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LineElement, PointElement } from 'chart.js';
 
@@ -11,12 +11,14 @@ const Dash = ({ userSessionState }) => {
 
   const [chartData, setChartData] = useState(null);
   const [chartDecada, setChartDecada] = useState(null);
+
   const [tracksMostPopular, settracksMostPopular] = useState({});
   const [tracksLessPopular, settracksLessPopular] = useState({});
+  const [timesearch, settimesearch] = useState("short_term");
 
-  const tracksPopular = async () => {
+  const fetchTracks = async (userSessionState) => {
+    const topTracks = await getTopTracks(userSessionState, timesearch);
 
-    const topTracks = await getTopTracks(userSessionState);
 
     var mostpopular = topTracks.reduce((mostPopular, currentTrack) => {
       return currentTrack.popularity > mostPopular.popularity ? currentTrack : mostPopular;
@@ -42,23 +44,26 @@ const Dash = ({ userSessionState }) => {
       }
     );
 
-  }
-
-
-
-  const fetchTracks = async (userSessionState) => {
-    const topTracks = await getTopTracks(userSessionState);
 
     let idsTracks = topTracks?.map(({ id }) => id);
     let dataTracks = [];
 
     if (idsTracks != undefined) {
 
-      for (const e of idsTracks) {
-        let infoTrack = await getTracks(userSessionState, e);
-        const releaseDate = infoTrack.album.release_date;
-        dataTracks.push(releaseDate);
+      try {
+        let infoTrack = await getTracks(userSessionState, idsTracks.toString());
+
+        infoTrack.tracks.map(({ album }) => {
+
+          const releaseDate = album.release_date;
+          dataTracks.push(releaseDate);
+
+        })
+
+      } catch (error) {
+        console.log(error)
       }
+
 
       const decadeCounts = dataTracks.reduce((acc, date) => {
         const year = parseInt(date.split("-")[0], 10);
@@ -96,7 +101,8 @@ const Dash = ({ userSessionState }) => {
   };
 
   const fetchArtistGenres = async (userSessionState) => {
-    const topArtist = await getTopArtist(userSessionState);
+
+    const topArtist = await getTopArtist(userSessionState, timesearch);
 
     /* Pega somente generos musicais em seus arrays brutos */
     const genreCount = topArtist?.map(({ genres }) => {
@@ -151,8 +157,13 @@ const Dash = ({ userSessionState }) => {
   useEffect(() => {
     fetchArtistGenres(userSessionState);
     fetchTracks(userSessionState);
-    tracksPopular();
-  }, [userSessionState]);
+  }, [userSessionState, timesearch]);
+
+  const handleSelectChange = (event) => {
+
+    settimesearch(event.target.value);
+  };
+
 
   return (
     <>
@@ -166,6 +177,19 @@ const Dash = ({ userSessionState }) => {
       </h1>
 
 
+      <div className="row justify-content-end mx-auto">
+        <div className='col-lg-3 col-md-3 col-sm-12'>
+          <label htmlFor="exampleSelect1" className="form-label mt-4">Por quanto tempo você gostaria de buscar os seus dados ? </label>
+          <select className="form-select" id="exampleSelect1" value={timesearch} onChange={handleSelectChange}>
+            <option value="short_term">4 semanas</option>
+            <option value="medium_term">6 meses</option>
+            <option value="long_term">1 ano</option>
+          </select>
+        </div>
+      </div>
+
+
+
       <p className="text-center mx-auto mt-3" style={{ maxWidth: '800px', padding: '0 10px' }}>
         A popularidade das faixas é medida em uma escala de 0 a 100, onde 100 indica a faixa mais popular.
         Esse valor é calculado principalmente com base no total de reproduções recentes da faixa.
@@ -177,9 +201,9 @@ const Dash = ({ userSessionState }) => {
 
       <div className="row justify-content-center">
         <div className="col-md-6 col-lg-4 mb-2">
-          <div className="card mb-3" style={{boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)' }}>
+          <div className="card mb-3" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)' }}>
             <h3 className="card-header text-center">Popular</h3>
-            <img height={300}  src={tracksMostPopular.image} alt="música mais popular" className="" />
+            <img height={300} src={tracksMostPopular.image} alt="música mais popular" className="" />
             <div className="card-body">
               <h5 className="card-title text-center">{tracksMostPopular.name} - {tracksMostPopular.popularity}</h5>
             </div>

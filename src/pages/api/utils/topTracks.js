@@ -12,7 +12,7 @@ export async function fetchWebApi(endpoint, method, token, body) {
     return await res.json();
 }
 
-export async function getTopTracks(session) {
+export async function getTopTracks(session, time_range) {
 
     let accessToken;
     if (session?.data?.user?.accessToken) {
@@ -23,8 +23,9 @@ export async function getTopTracks(session) {
         console.error('Token de acesso não encontrado na sessão.');
         return null;
     }
+
     // Endpoint reference: https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
-    return (await fetchWebApi('v1/me/top/tracks?time_range=long_term&limit=30', 'GET', accessToken)).items;
+    return (await fetchWebApi(`v1/me/top/tracks?time_range=${time_range}&limit=25`, 'GET', accessToken)).items;
 }
 
 
@@ -40,11 +41,11 @@ export async function getTracks(session, id) {
         return null;
     }
 
-   return (await fetchWebApi(`v1/tracks/${id}`, 'GET', accessToken));
+    return (await fetchWebApi(`v1/tracks/${id}`, 'GET', accessToken));
 }
 
 
-export async function getTopArtist(session) {
+export async function getTopArtist(session, time_range) {
 
     let accessToken;
     if (session?.data?.user?.accessToken) {
@@ -55,7 +56,31 @@ export async function getTopArtist(session) {
         console.error('Token de acesso não encontrado na sessão.');
         return null;
     }
+
     // Endpoint reference: https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
-    return (await fetchWebApi('v1/me/top/artists?time_range=long_term&limit=30', 'GET', accessToken)).items;
+    return (await fetchWebApi(`v1/me/top/artists?time_range=${time_range}&limit=25`, 'GET', accessToken)).items;
 }
 
+
+
+export async function fetchTrackWithRetry(userSessionState, trackId) {
+    let retries = 0;
+    const maxRetries = 5;
+
+    while (retries < maxRetries) {
+        try {
+            let infoTrack = await getTracks(userSessionState, trackId);
+            return infoTrack;
+        } catch (error) {
+            if (error.status === 429) {
+                const retryAfter = error.headers['retry-after'] || 5; // Se não houver cabeçalho, aguarda 5 segundos
+                console.warn(`Too many requests. Retrying in ${retryAfter} seconds...`);
+                await delay(retryAfter * 1000); // Aguardar o tempo especificado em milissegundos
+                retries++;
+            } else {
+                throw error; // Lança outros erros
+            }
+        }
+    }
+    throw new Error('Max retries reached');
+}
