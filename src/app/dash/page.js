@@ -18,44 +18,47 @@ const Dash = ({ userSessionState }) => {
     let idsTracks = topTracks?.map(({ id }) => id);
     let dataTracks = [];
 
-    for (const e of idsTracks) {
-      let infoTrack = await getTracks(userSessionState, e);
-      const releaseDate = infoTrack.album.release_date;
-      dataTracks.push(releaseDate);
+    if (idsTracks != undefined) {
+
+      for (const e of idsTracks) {
+        let infoTrack = await getTracks(userSessionState, e);
+        const releaseDate = infoTrack.album.release_date;
+        dataTracks.push(releaseDate);
+      }
+
+      const decadeCounts = dataTracks.reduce((acc, date) => {
+        const year = parseInt(date.split("-")[0], 10);
+        const decade = Math.floor(year / 10) * 10;
+        acc[decade] = (acc[decade] || 0) + 1;
+        return acc;
+      }, {});
+
+      const result = Object.entries(decadeCounts).map(([decade, count]) => ({
+        decade: `${decade}s`,
+        count: count,
+      }));
+
+      // Prepara dados para o gráfico 
+      const labels = result.map(item => item.decade);
+      const data = result.map(item => item.count);
+
+      setChartDecada({
+        labels: labels,
+        datasets: [
+          {
+            label: 'Músicas por Década',
+            data: data,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2,
+            pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            tension: 0.3,
+          },
+        ],
+      });
     }
-
-    const decadeCounts = dataTracks.reduce((acc, date) => {
-      const year = parseInt(date.split("-")[0], 10);
-      const decade = Math.floor(year / 10) * 10;
-      acc[decade] = (acc[decade] || 0) + 1;
-      return acc;
-    }, {});
-
-    const result = Object.entries(decadeCounts).map(([decade, count]) => ({
-      decade: `${decade}s`,
-      count: count,
-    }));
-
-    // Prepara dados para o gráfico 
-    const labels = result.map(item => item.decade);
-    const data = result.map(item => item.count);
-
-    setChartDecada({
-      labels: labels,
-      datasets: [
-        {
-          label: 'Músicas por Década',
-          data: data,
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 2,
-          pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-          pointBorderColor: '#fff',
-          pointBorderWidth: 2,
-          tension: 0.3,
-        },
-      ],
-    });
   };
 
   const fetchArtistGenres = async (userSessionState) => {
@@ -85,27 +88,30 @@ const Dash = ({ userSessionState }) => {
       return acc;
     }, {});
 
-    let ord = Object.entries(combinedGenres).sort((a, b) => b[1] - a[1]);
+    if (combinedGenres != undefined) {
+      let ord = Object.entries(combinedGenres).sort((a, b) => b[1] - a[1]);
 
-    const top10 = ord.slice(0, 10);
+      const top10 = ord.slice(0, 10);
 
-    const labels = top10.map(item => item[0]);
-    const data = top10.map(item => item[1]);
+      const labels = top10.map(item => item[0]);
+      const data = top10.map(item => item[1]);
 
-    setChartData({
-      labels: labels,
-      datasets: [
-        {
-          label: 'Gêneros Musicais',
-          data: data,
-          backgroundColor: 'rgba(75, 192, 192, 0.6)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1,
-        },
-      ],
-    });
+      setChartData({
+        labels: labels,
+        datasets: [
+          {
+            label: 'Gêneros Musicais',
+            data: data,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+          },
+        ],
+      });
 
-    return top10;
+      return top10;
+    }
+    return [];
   };
 
   useEffect(() => {
