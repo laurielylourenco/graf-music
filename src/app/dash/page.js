@@ -11,6 +11,40 @@ const Dash = ({ userSessionState }) => {
 
   const [chartData, setChartData] = useState(null);
   const [chartDecada, setChartDecada] = useState(null);
+  const [tracksMostPopular, settracksMostPopular] = useState({});
+  const [tracksLessPopular, settracksLessPopular] = useState({});
+
+  const tracksPopular = async () => {
+
+    const topTracks = await getTopTracks(userSessionState);
+
+    var mostpopular = topTracks.reduce((mostPopular, currentTrack) => {
+      return currentTrack.popularity > mostPopular.popularity ? currentTrack : mostPopular;
+    }, topTracks[0]);
+
+    var lesspopular = topTracks.reduce((mostPopular, currentTrack) => {
+      return currentTrack.popularity < mostPopular.popularity ? currentTrack : mostPopular;
+    }, topTracks[0]);
+
+    settracksMostPopular(
+      {
+        image: mostpopular.album.images[1].url,
+        name: mostpopular.name,
+        popularity: mostpopular.popularity,
+      }
+    );
+
+    settracksLessPopular(
+      {
+        image: lesspopular.album.images[1].url,
+        name: lesspopular.name,
+        popularity: lesspopular.popularity,
+      }
+    );
+
+  }
+
+
 
   const fetchTracks = async (userSessionState) => {
     const topTracks = await getTopTracks(userSessionState);
@@ -117,6 +151,7 @@ const Dash = ({ userSessionState }) => {
   useEffect(() => {
     fetchArtistGenres(userSessionState);
     fetchTracks(userSessionState);
+    tracksPopular();
   }, [userSessionState]);
 
   return (
@@ -130,12 +165,44 @@ const Dash = ({ userSessionState }) => {
         !
       </h1>
 
+
+      <p className="text-center mx-auto mt-3" style={{ maxWidth: '800px', padding: '0 10px' }}>
+        A popularidade das faixas é medida em uma escala de 0 a 100, onde 100 indica a faixa mais popular.
+        Esse valor é calculado principalmente com base no total de reproduções recentes da faixa.
+        Ou seja, músicas que estão sendo muito ouvidas agora tendem a ter uma popularidade mais alta em comparação com aquelas que foram populares no passado.
+        Vale destacar que faixas duplicadas (por exemplo, versões de um single e de um álbum) são avaliadas separadamente.
+        Além disso, a popularidade do artista e do álbum é calculada a partir da popularidade de suas faixas.
+        É importante lembrar que o valor da popularidade pode ter um leve atraso e não reflete as mudanças em tempo real.
+      </p>
+
+      <div className="row justify-content-center">
+        <div className="col-md-6 col-lg-4 mb-2">
+          <div className="card mb-3" style={{boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)' }}>
+            <h3 className="card-header text-center">Popular</h3>
+            <img height={300}  src={tracksMostPopular.image} alt="música mais popular" className="" />
+            <div className="card-body">
+              <h5 className="card-title text-center">{tracksMostPopular.name} - {tracksMostPopular.popularity}</h5>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-md-6 col-lg-4 mb-2">
+          <div className="card mb-3" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)' }}>
+            <h3 className="card-header text-center">Essa só você escuta!</h3>
+            <img height={300} src={tracksLessPopular.image} alt="música menos popular" className="" />
+            <div className="card-body">
+              <h5 className="card-title text-center">{tracksLessPopular.name} - {tracksLessPopular.popularity}</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
       <p className="text-center mx-auto mt-3" style={{ maxWidth: '700px', padding: '0 10px' }}>
         O gráfico abaixo mostra os gêneros musicais mais frequentes entre os 10 artistas que você mais escuta.
         Cada barra representa um gênero, e a altura indica quantas vezes esse gênero aparece entre seus
         artistas favoritos. Quanto maior a barra, mais presentes esses estilos estão na sua música do dia a dia.
       </p>
-
 
       {chartData && (
         <div style={{ width: '100%', maxWidth: '900px', margin: 'auto' }}>

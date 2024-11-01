@@ -15,7 +15,7 @@ const About = () => {
           </p>
         </div>
         <div className="col-md-6">
-          <h1>Quem criou?</h1>
+          <h1>Quem sou eu?</h1>
           <p>
             Meu nome é Lauriely, tenho 22 anos. 
             Sou uma desenvolvedora web apaixonada por tecnologia e estou sempre procurando maneiras de melhorar minhas habilidades com temas que gosto.
