@@ -25,7 +25,7 @@ export async function getTopTracks(session, time_range) {
     }
 
     // Endpoint reference: https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
-    return (await fetchWebApi(`v1/me/top/tracks?time_range=${time_range}&limit=25`, 'GET', accessToken)).items;
+    return (await fetchWebApi(`v1/me/top/tracks?time_range=${time_range}&limit=30`, 'GET', accessToken)).items;
 }
 
 
@@ -41,7 +41,7 @@ export async function getTracks(session, id) {
         return null;
     }
 
-    return (await fetchWebApi(`v1/tracks/${id}`, 'GET', accessToken));
+    return (await fetchWebApi(`v1/tracks?ids=${id}`, 'GET', accessToken));
 }
 
 
@@ -58,7 +58,7 @@ export async function getTopArtist(session, time_range) {
     }
 
     // Endpoint reference: https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
-    return (await fetchWebApi(`v1/me/top/artists?time_range=${time_range}&limit=25`, 'GET', accessToken)).items;
+    return (await fetchWebApi(`v1/me/top/artists?time_range=${time_range}&limit=30`, 'GET', accessToken)).items;
 }
 
 
@@ -75,7 +75,7 @@ export async function fetchTrackWithRetry(userSessionState, trackId) {
             if (error.status === 429) {
                 const retryAfter = error.headers['retry-after'] || 5; // Se não houver cabeçalho, aguarda 5 segundos
                 console.warn(`Too many requests. Retrying in ${retryAfter} seconds...`);
-                await delay(retryAfter * 1000); // Aguardar o tempo especificado em milissegundos
+                await delay(retryAfter * 1000); 
                 retries++;
             } else {
                 throw error; // Lança outros erros

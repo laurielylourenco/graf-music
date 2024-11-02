@@ -51,7 +51,9 @@ const Dash = ({ userSessionState }) => {
     if (idsTracks != undefined) {
 
       try {
-        let infoTrack = await getTracks(userSessionState, idsTracks.toString());
+
+        const urlEncodedStr = encodeURIComponent(idsTracks.toString());
+        let infoTrack = await getTracks(userSessionState, urlEncodedStr);
 
         infoTrack.tracks.map(({ album }) => {
 
