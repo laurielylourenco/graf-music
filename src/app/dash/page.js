@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchTrackWithRetry, getTopArtist, getTopTracks, getTracks } from "../../pages/api/utils/topTracks";
 import { Bar, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LineElement, PointElement } from 'chart.js';
-
+import { FaSpotify } from "react-icons/fa";
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
 
 
@@ -33,6 +33,7 @@ const Dash = ({ userSessionState }) => {
         image: mostpopular.album.images[1].url,
         name: mostpopular.name,
         popularity: mostpopular.popularity,
+        audio: mostpopular.external_urls.spotify
       }
     );
 
@@ -41,6 +42,7 @@ const Dash = ({ userSessionState }) => {
         image: lesspopular.album.images[1].url,
         name: lesspopular.name,
         popularity: lesspopular.popularity,
+        audio: lesspopular.external_urls.spotify
       }
     );
 
@@ -181,7 +183,7 @@ const Dash = ({ userSessionState }) => {
 
       <div className="row justify-content-end mx-auto">
         <div className='col-lg-3 col-md-3 col-sm-12'>
-          <label htmlFor="exampleSelect1" className="form-label mt-4">Por quanto tempo você gostaria de buscar os seus dados ? </label>
+          <label htmlFor="exampleSelect1" className="form-label mt-4">Por quanto tempo você gostaria de buscar os seus dados no <FaSpotify /> ? </label>
           <select className="form-select" id="exampleSelect1" value={timesearch} onChange={handleSelectChange}>
             <option value="short_term">4 semanas</option>
             <option value="medium_term">6 meses</option>
@@ -204,20 +206,22 @@ const Dash = ({ userSessionState }) => {
       <div className="row justify-content-center">
         <div className="col-md-6 col-lg-4 mb-2">
           <div className="card mb-3" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)' }}>
-            <h3 className="card-header text-center">Popular</h3>
+            <h3 className="card-header text-center">Popular <FaSpotify /> </h3>
             <img height={300} src={tracksMostPopular.image} alt="música mais popular" className="" />
-            <div className="card-body">
-              <h5 className="card-title text-center">{tracksMostPopular.name} - {tracksMostPopular.popularity}</h5>
+            <div className="card-body text-center">
+              <h5 className="card-title">{tracksMostPopular.name} - {tracksMostPopular.popularity}</h5>
+              <a href={tracksMostPopular.audio} className="text-success"> <FaSpotify /> Play on Spotify</a>
             </div>
           </div>
         </div>
 
         <div className="col-md-6 col-lg-4 mb-2">
           <div className="card mb-3" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)' }}>
-            <h3 className="card-header text-center">Essa só você escuta!</h3>
+            <h3 className="card-header text-center">Essa só você escuta! <FaSpotify /></h3>
             <img height={300} src={tracksLessPopular.image} alt="música menos popular" className="" />
-            <div className="card-body">
-              <h5 className="card-title text-center">{tracksLessPopular.name} - {tracksLessPopular.popularity}</h5>
+            <div className="card-body text-center">
+              <h5 className="card-title">{tracksLessPopular.name} - {tracksLessPopular.popularity}</h5>
+              <a href={tracksLessPopular.audio} className="text-success"> <FaSpotify /> Play on Spotify</a>
             </div>
           </div>
         </div>
