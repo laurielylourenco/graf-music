@@ -20,7 +20,7 @@ const Navbar = ({ userSessionState, onLogout }) => {
               <Link className="nav-link active" aria-current="page" href="/">Home</Link>
             </li>
             <li className="nav-item">
-              <a  className="nav-link" href="/about">Sobre</a>
+              <a  className="nav-link" href="/about">About</a>
             </li>
             {userSessionState.status === 'authenticated' ? (
               <li className="nav-item">

@@ -89,7 +89,7 @@ const Dash = ({ userSessionState }) => {
         labels: labels,
         datasets: [
           {
-            label: 'Músicas por Década',
+            label: 'Songs by Decade',
             data: data,
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderColor: 'rgba(75, 192, 192, 1)',
@@ -139,12 +139,12 @@ const Dash = ({ userSessionState }) => {
 
       const labels = top10.map(item => item[0]);
       const data = top10.map(item => item[1]);
-
+   
       setChartData({
         labels: labels,
         datasets: [
           {
-            label: 'Gêneros Musicais',
+            label: 'Music Genres',
             data: data,
             backgroundColor: 'rgba(75, 192, 192, 0.6)',
             borderColor: 'rgba(75, 192, 192, 1)',
@@ -173,7 +173,7 @@ const Dash = ({ userSessionState }) => {
     <>
 
       <h1 className="text-center mt-5">
-        Olá,{' '}
+        Hi,{' '}
         {userSessionState && userSessionState.status === 'authenticated'
           ? userSessionState.data.user?.name || 'friend'
           : 'stranger'}
@@ -183,11 +183,11 @@ const Dash = ({ userSessionState }) => {
 
       <div className="row justify-content-end mx-auto">
         <div className='col-lg-3 col-md-3 col-sm-12'>
-          <label htmlFor="exampleSelect1" className="form-label mt-4">Por quanto tempo você gostaria de buscar os seus dados no <FaSpotify /> ? </label>
+          <label htmlFor="exampleSelect1" className="form-label mt-4">For how long would you like to fetch your data from <FaSpotify />? </label>
           <select className="form-select" id="exampleSelect1" value={timesearch} onChange={handleSelectChange}>
-            <option value="short_term">4 semanas</option>
-            <option value="medium_term">6 meses</option>
-            <option value="long_term">1 ano</option>
+            <option value="short_term">4 weeks</option>
+            <option value="medium_term">6 months</option>
+            <option value="long_term">1 year</option>
           </select>
         </div>
       </div>
@@ -195,19 +195,19 @@ const Dash = ({ userSessionState }) => {
 
 
       <p className="text-center mx-auto mt-3" style={{ maxWidth: '800px', padding: '0 10px' }}>
-        A popularidade das faixas é medida em uma escala de 0 a 100, onde 100 indica a faixa mais popular.
-        Esse valor é calculado principalmente com base no total de reproduções recentes da faixa.
-        Ou seja, músicas que estão sendo muito ouvidas agora tendem a ter uma popularidade mais alta em comparação com aquelas que foram populares no passado.
-        Vale destacar que faixas duplicadas (por exemplo, versões de um single e de um álbum) são avaliadas separadamente.
-        Além disso, a popularidade do artista e do álbum é calculada a partir da popularidade de suas faixas.
-        É importante lembrar que o valor da popularidade pode ter um leve atraso e não reflete as mudanças em tempo real.
+        The popularity of tracks is measured on a scale from 0 to 100, where 100 indicates the most popular track.
+        This value is primarily calculated based on the total number of recent plays of the track.
+        In other words, songs that are being heavily listened to right now tend to have a higher popularity compared to those that were popular in the past.
+        It’s important to note that duplicate tracks (e.g., versions of a single and an album) are evaluated separately.
+        Additionally, the popularity of the artist and the album is calculated from the popularity of their tracks.
+        It’s worth remembering that the popularity value may have a slight delay and does not reflect real-time changes.
       </p>
 
       <div className="row justify-content-center">
         <div className="col-md-6 col-lg-4 mb-2">
           <div className="card mb-3" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)' }}>
             <h3 className="card-header text-center">Popular <FaSpotify /> </h3>
-            <img height={300} src={tracksMostPopular.image} alt="música mais popular" className="" />
+            <img height={300} src={tracksMostPopular.image} alt="most popular songs" className="" />
             <div className="card-body text-center">
               <h5 className="card-title">{tracksMostPopular.name} - {tracksMostPopular.popularity}</h5>
               <a href={tracksMostPopular.audio} className="text-success"> <FaSpotify /> Play on Spotify</a>
@@ -217,8 +217,8 @@ const Dash = ({ userSessionState }) => {
 
         <div className="col-md-6 col-lg-4 mb-2">
           <div className="card mb-3" style={{ boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)' }}>
-            <h3 className="card-header text-center">Essa só você escuta! <FaSpotify /></h3>
-            <img height={300} src={tracksLessPopular.image} alt="música menos popular" className="" />
+            <h3 className="card-header text-center">This one, only you listen to! <FaSpotify /></h3>
+            <img height={300} src={tracksLessPopular.image} alt="less popular sogs" className="" />
             <div className="card-body text-center">
               <h5 className="card-title">{tracksLessPopular.name} - {tracksLessPopular.popularity}</h5>
               <a href={tracksLessPopular.audio} className="text-success"> <FaSpotify /> Play on Spotify</a>
@@ -229,9 +229,9 @@ const Dash = ({ userSessionState }) => {
 
 
       <p className="text-center mx-auto mt-3" style={{ maxWidth: '700px', padding: '0 10px' }}>
-        O gráfico abaixo mostra os gêneros musicais mais frequentes entre os 10 artistas que você mais escuta.
-        Cada barra representa um gênero, e a altura indica quantas vezes esse gênero aparece entre seus
-        artistas favoritos. Quanto maior a barra, mais presentes esses estilos estão na sua música do dia a dia.
+      The chart below shows the most frequent music genres among the top 10 artists you listen to the most.  
+      Each bar represents a genre, and the height indicates how many times that genre appears among your favorite artists. 
+      The taller the bar, the more present these styles are in your everyday music.
       </p>
 
       {chartData && (
@@ -248,7 +248,7 @@ const Dash = ({ userSessionState }) => {
                   },
                   title: {
                     display: true,
-                    text: 'Distribuição dos Gêneros Musicais',
+                    text: 'Distribution of Music Genres',
                   },
                 },
                 scales: {
@@ -273,10 +273,10 @@ const Dash = ({ userSessionState }) => {
         </div>
       )}
 
-      <h2 className="text-center mt-5">Distribuição das Músicas por Década</h2>
+      <h2 className="text-center mt-5">Distribution of Songs by Decade</h2>
       <p className="text-center mx-auto mt-3" style={{ maxWidth: '700px', padding: '0 10px' }}>
-        Este gráfico mostra a quantidade de músicas que você escuta, distribuídas por década de acordo com data de lançamento.
-        Cada ponto representa uma década, e a linha conecta os pontos para indicar a tendência ao longo do tempo.
+      This chart shows the number of songs you listen to, distributed by decade based on release date.  
+      Each point represents a decade, and the line connects the points to indicate the trend over time.
       </p>
 
       {chartDecada && (
@@ -293,7 +293,7 @@ const Dash = ({ userSessionState }) => {
                   },
                   title: {
                     display: true,
-                    text: 'Músicas por Década',
+                    text: 'Songs by Decade',
                   },
                 },
                 scales: {

@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import { FaSpotify } from "react-icons/fa";
 
-//import  image from "./assets/PNG/musicfile2-09.png"
-
 const HeroSection = ({onLogin}) => {
 
   const handleClick = () => {
@@ -25,10 +23,10 @@ const HeroSection = ({onLogin}) => {
         </div>
         <div className="col-lg-6">
           <h1 className="display-5 fw-bold lh-1 mb-3">
-          Sua trilha sonora em dados
+          Your soundtrack in data
           </h1>
           <p className="lead">
-          Explore a magia da música de forma totalmente nova com nosso sistema de geração de gráficos a partir das músicas que você ama no Spotify <FaSpotify />. Descubra insights surpreendentes sobre sua trilha sonora pessoal e mergulhe nas histórias que seus dados musicais contam.
+          Explore the magic of music in a whole new way with our chart generation system based on the songs you love on Spotify <FaSpotify />. Discover surprising insights about your personal soundtrack and dive into the stories your music data tells.
           </p>
           <div className="d-grid gap-2 d-md-flex justify-content-md-start">
             <a onClick={handleClick} type="button" className="btn btn-primary btn-lg px-4 me-md-2">

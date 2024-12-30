@@ -4,7 +4,7 @@ import Script from 'next/script'
 
 export const metadata = {
   title: 'Graf-Music',
-  description: 'Bagunça',
+  description: 'Graficos de musicais',
 }
 
 export default function RootLayout({ children }) {

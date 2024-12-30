@@ -25,7 +25,7 @@ export async function getTopTracks(session, time_range) {
     }
 
     // Endpoint reference: https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
-    return (await fetchWebApi(`v1/me/top/tracks?time_range=${time_range}&limit=30`, 'GET', accessToken)).items;
+    return (await fetchWebApi(`v1/me/top/tracks?time_range=${time_range}&limit=50`, 'GET', accessToken)).items;
 }
 
 
@@ -58,7 +58,7 @@ export async function getTopArtist(session, time_range) {
     }
 
     // Endpoint reference: https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
-    return (await fetchWebApi(`v1/me/top/artists?time_range=${time_range}&limit=30`, 'GET', accessToken)).items;
+    return (await fetchWebApi(`v1/me/top/artists?time_range=${time_range}&limit=50`, 'GET', accessToken)).items;
 }
 
 
